@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Data Produts</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Data Produts">
+  <meta name="author" content="Wolfgang Gross">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>Data Produts</h1>
+    <h2>Report</h2>
+    <p>Wolfgang Gross<br/></p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>First Steps</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>First I started with:</p>
+
+<ol>
+<li>Getting the Data of twitter</li>
+<li>looking into the data (1,7 GB)</li>
+<li>Find I need a prepreocessing -  couldn&#39;t do wihin R</li>
+<li>Write a small programm reading and cleaning the raw dat in .NET Framework</li>
+</ol>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>Data in R</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Load and save Data</p>
+
+<pre><code class="r">library(ggplot2)
+library(bit64)
+df1 &lt;- readRDS(file=&quot;plot_second.Rda&quot;)
+df2 &lt;- readRDS(file=&quot;plot_minute.Rda&quot;)
+df3 &lt;- readRDS(file=&quot;plot_hour.Rda&quot;)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>Working on the Data</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The Data contained:</p>
+
+<ul>
+<li>TwitterID</li>
+<li>UserId</li>
+<li>Timestamp</li>
+<li>Latitude and Longitue</li>
+<li>Country or City</li>
+<li>Content of the Tweet</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>Working on the Data</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Count Number of tweets for ervery timestepp.</p>
+
+<p>Sum up for every Minute and Hour.</p>
+
+<pre><code class="r">count  &lt;- data.frame(table(dat$V3))
+sumMinute &lt;- c()
+for(i in seq(1,length(count$Freq),60)){sumMinute &lt;- append(sumMinute,sum(count$Freq[i:(i+60)]))}
+sumHour &lt;- c()
+for(k in seq(1,length(count$Freq),3600)){sumHour &lt;- append(sumHour,sum(count$Freq[k:(k+3600)]))}
+realTime &lt;- strptime(as.character(count$Var1),format=&quot;%Y%m%d%H%M%S&quot;)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-5" style="background:;">
+  <hgroup>
+    <h2>Plot Data</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>For ploting the Data I used ggplot</p>
+
+<pre><code class="r">df &lt;- data.frame(realTime,Tweet.count)
+ggplot(df,aes(x=realTime,y=Tweet.count)) + geom_line()
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-6" style="background:;">
+  <hgroup>
+    <h2>Tweets per Second - Minute - Hour</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>Plot wiht different time resolutions</p>
+
+<p><img src="figure/unnamed-chunk-4-1.png" alt="plot of chunk unnamed-chunk-4"> <img src="figure/unnamed-chunk-4-2.png" alt="plot of chunk unnamed-chunk-4"> <img src="figure/unnamed-chunk-4-3.png" alt="plot of chunk unnamed-chunk-4"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='First Steps'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Data in R'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Working on the Data'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Working on the Data'>
+         4
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=5 title='Plot Data'>
+         5
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=6 title='Tweets per Second - Minute - Hour'>
+         6
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
